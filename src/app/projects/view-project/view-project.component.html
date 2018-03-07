@@ -1,0 +1,235 @@
+<div class="card-box" *ngIf = "!viewProjectStatus" >
+	<div class="col-lg-12" >
+		<h5 class="page-header">Please wait while project is loading..</h5>
+	</div>
+</div>
+<div class="row" [hidden] = "!projectDetailsStatus">
+	<div class="col-md-8">
+		<div class="card-box">
+			<div id="page-wrapper" >
+				<div class="row" >
+					<div class="col-lg-12">
+						<h1 class="page-header">{{projectDetails.name}}<strong class="handler">({{projectDetails.handle}})</strong></h1>
+					</div>
+					<div class="col-md-12">
+						<div class="project-left-side">
+							<div class="block">
+								<strong>Handler</strong>
+								<span>{{projectDetails.handle}}</span>
+								<i class="fa fa-pencil pull-right" style="cursor:pointer;" [routerLink]='["/dashboard/project/edit",projectDetails.handle]'></i>
+							</div>
+							<div class="block">
+								<strong>Status</strong>
+								<span>{{projectDetails.statusValue}}</span>
+							</div>
+							<div class="block">
+								<strong>Description:</strong>
+								<p class="_project_description" ></p>
+							</div>
+
+						</div>			
+					</div>
+
+					<!-- /.row -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-4" *ngIf = "viewProjectStatus">
+		<div class="card-box widget-user">
+			<div>
+				<img src="assets/images/avatar-1.jpg" class="img-responsive rounded-circle" alt="user">
+				<div class="wid-u-info">
+					<p class="text-muted m-b-5 font-13">{{projectDetails.email}}</p>
+					<small class="text-warning"><b>Creator</b></small>
+				</div>
+			</div>
+		</div>
+
+		<div class="card-box widget-user" *ngFor = "let assignee of projectAssignees">
+			<div>
+				<img src="assets/images/avatar-2.jpg" class="img-responsive rounded-circle" alt="user">
+				<div class="wid-u-info">
+					<h5 class="mt-0 m-b-5 font-16">{{assignee.user.first_name}} {{assignee.user.last_name}}</h5>
+					<p class="text-muted m-b-5 font-13">{{assignee.user.email}}</p>
+					<small class="text-success"><b>Assignees</b></small>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="card-box" [hidden] = "!projectDetailsStatus">
+    <div class="row">
+        
+    </div>
+    <div class="row bg">
+
+        <div class="col-md-8" id="main">
+            <form class="sorting">
+            <div class="form-group col-md-4">
+                <label for="sel1">Filter:</label>
+                <select name="priority_search" class="form-control" id="sel1" [(ngModel)] = "priorityFilter">
+                    <option>Select Priority</option>
+                    <option *ngFor = "let status of priorities;" value="{{status.id}}">{{status.name}}</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="sel1">Search:</label>
+                <input type="text" class="  search-query form-control" placeholder="Search" name="search_task" [(ngModel)] = "searchTask"  />
+            </div>
+        </form>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                           <a>
+                              Task List 
+                           </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" style="display: block;" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <ul class="pm-task-lst">
+                                <li *ngFor = "let task of tasks | namefilter:searchTask | priorityfilter:priorityFilter; " class="task_{{task.id}}">
+                                    <div class="pull-left">
+                                        <a style="cursor: pointer;" class="content">
+                                            <span style="cursor:pointer" class="closebtn _task_name" (click)="getTaskDetails(task.id);showSidebar=!showSidebar;"> {{task.name}}</span>
+                                        </a>
+                                        
+                                    </div>
+                                    <div class="pull-right">
+                                        <i class="fa fa-pencil _task_edit" aria-hidden="true" (click) = "editTask(task.id);clearFields();" data-toggle="modal" data-target="#taskModal"></i>
+                                        <i class="fa fa-trash-o _task_delete" aria-hidden="true" data-toggle="modal" data-target="#deleteTask" (click) = "taskDetails.id = task.id "></i>
+                                    </div>
+                                </li>
+                                <div id="mySidenav" class="sidenav" [ngClass]="{pm_sidebar_show: showSidebar}">
+                                    <a style="cursor: pointer;" class="closebtn" (click)="showSidebar = false;">&times;</a>
+                                    <ul class="content-pop" *ngIf = "viewTaskStatus">
+                                        <li>
+                                            <a style="cursor: pointer;" class="user-name">{{projectDetails.name.split(" ")[0].charAt(0) | uppercase}} </a>
+                                        <div class="pm_pit">
+                                                <span class="project-title">Task List in project </span>
+                                                <span class="pm_task_title">{{taskDetails.name}}</span>
+                                        </div>
+                                        </li>
+                                        <li>
+                                            <div class="pull-left">
+                                                <div class="left-block">
+                                                    <span *ngIf= "taskDetails.created_by">Created By <strong>{{taskDetails.created_by}}</strong></span><br>
+                                                    <span *ngIf = "taskDetails.created_at">Created On <strong>{{taskDetails.created_at | date:"dd/MM/yy"}}</strong></span><br>
+                                                </div>
+                                            </div>
+                                            <div class="pull-right" *ngIf = "taskDetails.priority_value">
+                                                <div class="right-block">
+                                                    <span>Assigned to: </span><strong>Unassigned</strong><br>
+                                                    <span>Priority: </span><strong>{{taskDetails.priority_value}}</strong><br>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <app-comments [type] = "type" [sourceId] = "sourceId"></app-comments>
+                                    </ul>
+                                    <div id="loadingImg" *ngIf="!viewTaskStatus"></div>
+                                </div>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-info btn-lg btn-custom w-md waves-effect waves-light" data-toggle="modal" data-target="#taskModal" (click)="clearFields()">New Task</button>
+                    </div>
+                     <!-- Modal -->
+                    <div class="modal fade" id="taskModal" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                           <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4>New Task </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group row">
+                                            <label for="name" class="col-sm-2 col-form-label">Name</label>
+                                            <div class="col-sm-10">
+                                                <input type="Input" name="name" [(ngModel)] = "taskDetails.name" class="form-control" id="inputname" placeholder="Name of the list">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="Description" class="col-sm-2 col-form-label">Description</label>
+                                            <div class="col-sm-10 editor-model">
+                                                <textarea class="form-control" id="_task_description" class="_task_description" rows="1" placeholder="descriptional(optional)"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="assignee" class="col-sm-2 col-form-label">Assignees</label>
+                                            <select class="form-control select2-multiple select2-hidden-accessible assignees" id="assignees" name="assignees" multiple="" tabindex="-1" aria-hidden="true">
+                                                <option *ngFor = "let user of users" [value] = "user.id">{{user.first_name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="Description" class="col-sm-2 col-form-label">Priority</label>
+                                            <div class="col-sm-10">
+                                                <select [(ngModel)]= "taskDetails.priority" class="form-control task_priority" id="taskPriority" name="taskPriority">
+                                                    <option *ngFor = "let priority of priorities" value="{{priority.id}}">
+                                                        {{priority.name}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="Description" class="col-sm-2 col-form-label">Tags</label>
+                                            <div class="col-sm-10">
+                                                <input style="width: 100%;" type="text" class="form-control add_task_tags" id="taskTags" placeholder="Enter Tags Name" name="taskTags"/>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <div *ngIf = "taskDetails.id != 0">
+                                        <button type="submit" class="btn btn-primary" style="cursor: pointer;" (click) = "updateTask()">Update Task</button>
+                                    </div>
+                                    <div *ngIf = "taskDetails.id == 0">
+                                        <button type="submit" class="btn btn-primary" style="cursor: pointer;" (click) = "saveTask()">Save Task</button>
+                                    </div>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="side-bar-tak">
+                <ul>
+                    <li>Assign to <i>drag to assign</i></li>
+                    <li><span class="assign-task">kulbir</span></li>
+                    <li><a href="#">+ Invite More People</a></li>
+                    <li>Priority<i>drag tag</i><br><span class="low">low</span><span class="medium">medium</span><span class="high">high</span></li>
+                </ul>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+</div>
+
+<div id="deleteTask" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+    <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Warning !!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Deleting project will delete its assignees also, are you sure you want to continue ??</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click) = "deleteTask()">Continue</button>
+            </div>
+        </div>
+
+    </div>
+</div>

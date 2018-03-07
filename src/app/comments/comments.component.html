@@ -1,0 +1,17 @@
+<div class="Comments"><span>Comments</span>
+    <div class="pm_time" *ngFor="let comment of comments;">
+        <a class="user-name">{{comment.user.first_name.charAt(0).toUpperCase()}}</a>
+        <div class="pm_right">
+            <span class="pm_name">{{comment.user.first_name}}</span>
+            <span class="pm_t">4 days ago</span>
+            <p class="pm_des">{{comment.message}}</p>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="pm_time" *ngIf="comments.length == 0">
+        <p class="pm_des">No comments found. Be first to comment on it.</p>
+    </div>
+    <div class="pm-editor">
+        <textarea class="comments" name="comments" [(ngModel)] = "commentDetails.message" class="form-control" (keydown)="eventHandler($event)"></textarea>
+    </div>
+</div>

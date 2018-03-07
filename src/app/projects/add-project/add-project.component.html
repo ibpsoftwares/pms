@@ -1,0 +1,44 @@
+<div class="card-box">
+	<div class="col-lg-12">
+		<h1 class="page-header">New Project</h1>
+	</div>
+	<div class="col-sm-12 col-md-6 ">
+		<form class="form-project">
+			<div class="form-group">
+				<label for="usr">Name</label>
+				<input [(ngModel)] = "projectDetails.name" (blur) = "getProjectHandle()" name="name" type="text" placeholder="Project Name" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label for="usr" style="float:left;">Handle </label><p class="handle-message"> (Choose a unique string for your project)</p> 
+				<input [(ngModel)] = "projectDetails.handle" (blur) = "validateHandle()" name="handle" placeholder="Project Handle" type="text" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label for="usr">Project Status</label><br>
+				<label class="radio-inline">
+					<input type="radio" checked="checked" value="0" name="optradio">Private
+				</label>
+				<label class="radio-inline">
+					<input type="radio" value="1"  name="optradio">Public
+				</label>           
+			</div>	
+			<div class="form-group">
+				<label for="usr">Assignees</label>
+				<select name="assignees" class="form-control" multiple="multiple">
+					<option *ngFor = "let user of users;" value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="usr">Description</label>
+				<textarea id="projectDescription"></textarea> 
+			</div>
+			<div class="form-group">	
+				<button type="button" class="btn btn-primary" (click) = "addProject()">Create Project</button>			
+				<button type="button" class="btn btn-secondary" (click) = "back()">Cancel</button>
+			</div>						
+		</form>
+	</div>
+</div>
+
+
+
+

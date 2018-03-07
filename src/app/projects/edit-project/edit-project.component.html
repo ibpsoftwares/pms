@@ -1,0 +1,70 @@
+<div class="card-box" *ngIf = "!editProjectStatus">
+	<div class="col-lg-12" >
+		<h5 class="page-header">Please wait while project is loading..</h5>
+	</div>
+</div>
+<div class="card-box" [hidden] = "!editProjectStatus">
+	<div id="wrapper">
+		<div id="page-wrapper" >
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Update Project</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+
+				<div class="col-sm-12 col-md-6 ">
+					<!--project form start here-->			
+					<form class="form-project">
+						<div class="form-group">
+							<label for="usr">Name:</label>
+							<input [(ngModel)] = "projectDetails.name" name="name" type="text" placeholder="Project Name" class="form-control" />
+						</div>
+						<div class="form-group">
+							<label for="usr">Handle:</label>
+							<input [(ngModel)] = "projectDetails.handle" (blur) = "validateHandle()" name="handle" placeholder="Project Handle" type="text" class="form-control" />
+						</div>
+						<div class="form-group">
+							<label for="usr">Privacy Status:</label><br>
+							<label class="radio-inline">
+								<input type="radio" [checked]="projectDetails.privacy_status === 0" value="0"  name="optradio">Private
+							</label>
+							<label class="radio-inline">
+								<input type="radio" [checked]="projectDetails.privacy_status === 1" value="1"  name="optradio">Public
+							</label>           
+						</div>	
+						<div class="form-group">
+							<label for="usr">Status:</label><br>
+							<select name="statuses" [(ngModel)] = "projectDetails.status" class="form-control">
+								<option value=0>Select project status</option>
+								<option *ngFor = "let status of statuses;" value="{{status.id}}">{{status.name}}</option>
+							</select>
+						</div>	
+						<div class="form-group">
+							<label for="usr">Assignees:</label>
+							<select name="assignees" class="form-control" multiple="multiple">
+								<option *ngFor = "let user of users;" value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="usr">Description:</label>
+							<textarea id="projectDescription"></textarea> 
+						</div>
+						<div class="form-group">	
+							<button type="button" class="btn btn-primary" (click) = "updateProject()">Update</button>			
+							<button type="button" class="btn btn-secondary" (click) = "back()">Cancel</button>
+						</div>						
+					</form>
+					<!--end of project form end here-->	           
+				</div>
+				<div class="col-sm-12 col-md-6 ">
+					<!-- <img class="img-responsive" src="images/create_project.png" alt=""> -->
+				</div>
+			</div>
+			<!-- /.row -->
+
+			<!-- /.panel-body -->
+		</div>
+		<!-- /.col-lg-4 -->
+	</div>
+</div>

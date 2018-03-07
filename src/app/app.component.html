@@ -1,0 +1,26 @@
+<div id="wrapper" >
+	<app-navbar *ngIf = "layout!=='empty'"></app-navbar>
+	<div class="content-page" *ngIf = "layout!=='empty'">
+		<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<router-outlet></router-outlet> 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div *ngIf = "layout=='empty'">
+	<router-outlet></router-outlet> 
+</div>
+
+<div id="overlay">
+</div>
+
+<ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1"
+[speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'"
+[color]="'#039cfd'" [trickleSpeed]="250" [thick]="true" [ease]="'linear'"
+></ng-progress>

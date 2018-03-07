@@ -1,0 +1,56 @@
+<div class="card-box" *ngIf = "!userDeatilsGet">
+	<h1 class="page-header">Please wait while user details are loading..</h1>
+</div>
+<div class="card-box" *ngIf = "userDeatilsGet">
+	<div id="page-wrapper" >
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Profile Edit</h1>
+				<!-- profile photo upload -->
+				<!-- edit form section -->
+				<div class="col-md-9 personal-info">
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="col-lg-3 control-label">First name:</label>
+							<div class="col-lg-8">
+								<input name="firstName" class="form-control" [(ngModel)] = "userDetails.firstName" type="text" value="Jane" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label">Last name:</label>
+							<div class="col-lg-8">
+								<input name="lastName" class="form-control" type="text" [(ngModel)] = "userDetails.lastName" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label">Company:</label>
+							<div class="col-lg-8">
+								<input name="companyName" class="form-control" type="text" [(ngModel)] = "userDetails.companyName" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label">Email:</label>
+							<div class="col-lg-8">
+								<input name="email" class="form-control" type="text" [(ngModel)] = "userDetails.email" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label">Change Password</label>
+							<div class="col-lg-8">
+								<a routerLink="/user/change-password" class="">Change Password</a>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label"></label>
+							<div class="col-md-8">
+								<input type="button" (click) = "updateUser()" class="btn btn-primary" value="Save Changes">
+								<span></span>
+								<input type="button" class="btn btn-default" (click) = "back()" value="Cancel">
+							</div>
+						</div>
+					</form>
+				</div>		 
+			</div>
+		</div>
+	</div>
+</div>

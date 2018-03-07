@@ -1,0 +1,79 @@
+ <div class="wrapper-page">
+
+    <div class="text-center">
+        <span>SignUp to Project Management</span>
+    </div>
+
+    <form class="form-horizontal m-t-20" >
+
+        <div class="form-group row">
+            <div class="col-12">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="mdi mdi-account"></i></span>
+                    <input type="text" name="firstName" [(ngModel)]="userDetails.firstName" class="form-control" placeholder="First Name" required autofocus>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="mdi mdi-account"></i></span>
+                    <input type="text" name="lastName" [(ngModel)]="userDetails.lastName" class="form-control" placeholder="Last Name" required autofocus>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="mdi mdi-email"></i></span>
+                    <input type="email" name="email" [(ngModel)]="userDetails.email" class="form-control" placeholder="Email" required autofocus>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="mdi mdi-account"></i></span>
+                    <input type="text" name="company_name" [(ngModel)]="userDetails.company_name" class="form-control" placeholder="Company Name" required autofocus>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="mdi mdi-key"></i></span>
+                    <input type="password" name="password" [(ngModel)]="userDetails.password" class="form-control" placeholder="Password" required>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="mdi mdi-key"></i></span>
+                    <input type="password" name="confirmPassword" [(ngModel)]="userDetails.confirmPassword" class="form-control" placeholder="Confirm Password" required>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12">
+                <input type="checkbox" class="terms" [checked]="termsConditions" (change)="termsConditions = !termsConditions" >
+                <label for="checkbox-signup">
+                    I accept <a href="#">Terms and Conditions</a>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group text-right m-t-20">
+            <div class="col-xs-12">
+                <button class="btn btn-lg btn-primary btn-block" type="button" (click)="registerUser()" >
+                Sign Up For Free</button>
+            </div>
+        </div>
+
+        <div class="form-group row m-t-30">
+            <div class="col-12 text-center">
+                <a href="pages-login.html" class="text-muted">Already have account?</a>
+            </div>
+        </div>
+    </form>
+</div>
